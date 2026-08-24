@@ -90,9 +90,9 @@
                 <label for="modaleImportance" class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Importance</label>
                 <select name="importance" id="modaleImportance"
                         class="w-full rounded-lg border border-stone-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-                    <option value="urgente">🔴 Urgente</option>
-                    <option value="importante">🟠 Importante</option>
-                    <option value="normale" selected>🟢 Normale</option>
+                    <option value="urgente">Urgente</option>
+                    <option value="importante">Importante</option>
+                    <option value="normale" selected>Normale</option>
                 </select>
             </div>
 
@@ -330,9 +330,9 @@
                         <label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">Importance</label>
                         <select name="importance"
                                 class="w-full rounded-lg border border-stone-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-                            <option value="urgente" {{ todo.importance.value == 'urgente' ? 'selected' }}>🔴 Urgente</option>
-                            <option value="importante" {{ todo.importance.value == 'importante' ? 'selected' }}>🟠 Importante</option>
-                            <option value="normale" {{ todo.importance.value == 'normale' ? 'selected' }}>🟢 Normale</option>
+                            <option value="urgente" {{ todo.importance.value == 'urgente' ? 'selected' }}>Urgente</option>
+                            <option value="importante" {{ todo.importance.value == 'importante' ? 'selected' }}>Importante</option>
+                            <option value="normale" {{ todo.importance.value == 'normale' ? 'selected' }}>Normale</option>
                         </select>
                     </div>
 
@@ -405,11 +405,11 @@
                 {% endif %}
 
                 {% if tacheNow.importance.value == 'urgente' %}
-                    <span>🔴 Urgente</span>
+                    <span>Urgente</span>
                 {% elseif tacheNow.importance.value == 'importante' %}
-                    <span>🟠 Importante</span>
+                    <span>Importante</span>
                 {% else %}
-                    <span>🟢 Normale</span>
+                    <span>Normale</span>
                 {% endif %}
             </div>
 

@@ -109,18 +109,7 @@ function enregistrerNouvelOrdre() {
     });
 };
 
-window.supprimerTodo = function (id) {
-    const carte = document.querySelector('[data-todo-id="' + id + '"]');
-    if (carte) {
-        carte.style.display = 'none';
-    }
-
-    fetch('/todo/supprimer/' + id, {
-        method: 'POST'
-    });
-
-    afficherToastAnnulation(id);
-};
+let suppressionsEnAttente = [];
 
 window.supprimerTodo = function (id) {
     const carte = document.querySelector('[data-todo-id="' + id + '"]');
@@ -131,7 +120,7 @@ window.supprimerTodo = function (id) {
     afficherToastAnnulation(id);
 };
 
-function afficherToastAnnulation(id) {
+window.afficherToastAnnulation = function (id) {
     const conteneur = document.getElementById('conteneur-toasts');
 
     const toast = document.createElement('div');
@@ -146,28 +135,43 @@ function afficherToastAnnulation(id) {
         confirmerSuppression(id, toast);
     }, 5000);
 
+    suppressionsEnAttente.push({ id: id, minuteur: minuteur, toast: toast });
+
     boutonAnnuler.addEventListener('click', function () {
         clearTimeout(minuteur);
+        suppressionsEnAttente = suppressionsEnAttente.filter(function (item) {
+            return item.id !== id;
+        });
         restaurerTodo(id, toast);
     });
-}
+};
 
-function confirmerSuppression(id, toast) {
-    fetch('/todo/supprimer/' + id, { method: 'POST' });
+window.confirmerSuppression = function (id, toast) {
+    fetch('/todo/supprimer/' + id, { method: 'POST', keepalive: true });
+    suppressionsEnAttente = suppressionsEnAttente.filter(function (item) {
+        return item.id !== id;
+    });
     retirerToast(toast);
-}
+};
 
-function restaurerTodo(id, toast) {
+window.restaurerTodo = function (id, toast) {
     const carte = document.querySelector('[data-todo-id="' + id + '"]');
     if (carte) {
         carte.style.display = '';
     }
     retirerToast(toast);
-}
+};
 
-function retirerToast(toast) {
+window.retirerToast = function (toast) {
     toast.classList.add('toast-sortant');
     setTimeout(function () {
         toast.remove();
     }, 250);
-}
+};
+
+document.addEventListener('turbo:before-render', function () {
+    suppressionsEnAttente.forEach(function (item) {
+        clearTimeout(item.minuteur);
+        confirmerSuppression(item.id, item.toast);
+    });
+});
