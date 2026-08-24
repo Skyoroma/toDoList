@@ -166,14 +166,35 @@ class TodoController extends AbstractController
     }
 
     #[Route('/todo/supprimer/{id}', name: 'todo_supprimer', methods: ['POST'])]
-    public function supprimer(int $id, Request $request, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
+    public function supprimer(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
     {
         $todo = $todoRepository->find($id);
-
         $todo->setDateSuppression(new DateTime());
         $entityManager->flush();
 
-        return $this->redirectToRoute('todo_liste');
+        return new Response('OK');
+    }
+
+    #[Route('/todo/confirmer-suppression/{id}', name: 'todo_confirmer_suppression', methods: ['POST'])]
+    public function confirmerSuppression(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
+    {
+        $todo = $todoRepository->find($id);
+        if ($todo) {
+            $entityManager->remove($todo);
+            $entityManager->flush();
+        }
+
+        return new Response('OK');
+    }
+
+    #[Route('/todo/annuler-suppression/{id}', name: 'todo_annuler_suppression', methods: ['POST'])]
+    public function annulerSuppression(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
+    {
+        $todo = $todoRepository->find($id);
+        $todo->setDateSuppression(null);
+        $entityManager->flush();
+
+        return new Response('OK');
     }
 
     #[Route('/todo/supprimerTermines', name: 'todo_supprimer_termines', methods: ['POST'])]

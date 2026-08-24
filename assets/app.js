@@ -117,6 +117,8 @@ window.supprimerTodo = function (id) {
         carte.style.display = 'none';
     }
 
+    fetch('/todo/supprimer/' + id, { method: 'POST', keepalive: true });
+
     afficherToastAnnulation(id);
 };
 
@@ -147,7 +149,7 @@ window.afficherToastAnnulation = function (id) {
 };
 
 window.confirmerSuppression = function (id, toast) {
-    fetch('/todo/supprimer/' + id, { method: 'POST', keepalive: true });
+    fetch('/todo/confirmer-suppression/' + id, { method: 'POST', keepalive: true });
     suppressionsEnAttente = suppressionsEnAttente.filter(function (item) {
         return item.id !== id;
     });
@@ -155,6 +157,8 @@ window.confirmerSuppression = function (id, toast) {
 };
 
 window.restaurerTodo = function (id, toast) {
+    fetch('/todo/annuler-suppression/' + id, { method: 'POST', keepalive: true });
+
     const carte = document.querySelector('[data-todo-id="' + id + '"]');
     if (carte) {
         carte.style.display = '';
