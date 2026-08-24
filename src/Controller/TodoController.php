@@ -222,10 +222,10 @@ class TodoController extends AbstractController
     #[Route('/statistiques', name:'statistiques', methods: ['GET'])]
     public function statistiques(TodoRepository $todoRepository)
     {
-        $nbAFaire = $todoRepository->count(['statut' => Statut::A_FAIRE]);
-        $nbEnCours = $todoRepository->count(['statut' => Statut::EN_COURS]);
-        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE]);
-        $nbTotal = $todoRepository->count([]);
+        $nbAFaire = $todoRepository->count(['statut' => Statut::A_FAIRE, 'dateSuppression' => null]);
+        $nbEnCours = $todoRepository->count(['statut' => Statut::EN_COURS, 'dateSuppression' => null]);
+        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE, 'dateSuppression' => null]);
+        $nbTotal = $todoRepository->count(['dateSuppression' => null]);
 
         if ($nbTotal == 0) {
             $pourcentageTermine = 0;
