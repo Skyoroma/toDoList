@@ -216,3 +216,15 @@ dialog.sheet[open]::backdrop {
 .drag-item {
     user-select: none;
 }
+
+.toast {
+    pointer-events: auto;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.toast.toast-sortant {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+}

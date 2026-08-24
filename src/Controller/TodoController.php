@@ -19,17 +19,17 @@ class TodoController extends AbstractController
     public function liste(TodoRepository $todoRepository, Request $request)
     {
         $filtre = $request->query->get('filtre');
-        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE]);
-        $nbTotal = $todoRepository->count([]);
+        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE, 'dateSuppression' => null]);
+        $nbTotal = $todoRepository->count(['dateSuppression' => null]);
 
         if ($filtre === 'termine') {
-            $todos = $todoRepository->findBy(['statut' => Statut::TERMINE], ['ordre' => 'ASC']);
+            $todos = $todoRepository->findBy(['statut' => Statut::TERMINE, 'dateSuppression' => null], ['ordre' => 'ASC']);
         } elseif ($filtre === 'a_faire') {
-            $todos = $todoRepository->findBy(['statut' => Statut::A_FAIRE], ['ordre' => 'ASC']);
+            $todos = $todoRepository->findBy(['statut' => Statut::A_FAIRE, 'dateSuppression' => null], ['ordre' => 'ASC']);
         } elseif ($filtre === 'en_cours') {
-            $todos = $todoRepository->findBy(['statut' => Statut::EN_COURS], ['ordre' => 'ASC']);
+            $todos = $todoRepository->findBy(['statut' => Statut::EN_COURS, 'dateSuppression' => null], ['ordre' => 'ASC']);
         } else {
-            $todos = $todoRepository->findBy([], ['ordre' => 'ASC']);
+            $todos = $todoRepository->findBy(['dateSuppression' => null], ['ordre' => 'ASC']);
         }
 
         if (date("H") >= 6 && date("H") <= 12){
@@ -40,7 +40,7 @@ class TodoController extends AbstractController
             $messageAccueil = "Bonsoir";
         }
 
-        $todosAFaire = $todoRepository->findBy(['statut' => Statut::A_FAIRE], ['ordre' => 'ASC']);
+        $todosAFaire = $todoRepository->findBy(['statut' => Statut::A_FAIRE, 'dateSuppression' => null], ['ordre' => 'ASC']);
 
         $poidsImportance = [
             'urgente' => 1,
@@ -169,11 +169,32 @@ class TodoController extends AbstractController
     public function supprimer(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
     {
         $todo = $todoRepository->find($id);
-
-        $entityManager->remove($todo);
+        $todo->setDateSuppression(new DateTime());
         $entityManager->flush();
 
-        return $this->redirectToRoute('todo_liste');
+        return new Response('OK');
+    }
+
+    #[Route('/todo/confirmer-suppression/{id}', name: 'todo_confirmer_suppression', methods: ['POST'])]
+    public function confirmerSuppression(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
+    {
+        $todo = $todoRepository->find($id);
+        if ($todo) {
+            $entityManager->remove($todo);
+            $entityManager->flush();
+        }
+
+        return new Response('OK');
+    }
+
+    #[Route('/todo/annuler-suppression/{id}', name: 'todo_annuler_suppression', methods: ['POST'])]
+    public function annulerSuppression(int $id, TodoRepository $todoRepository, EntityManagerInterface $entityManager)
+    {
+        $todo = $todoRepository->find($id);
+        $todo->setDateSuppression(null);
+        $entityManager->flush();
+
+        return new Response('OK');
     }
 
     #[Route('/todo/supprimerTermines', name: 'todo_supprimer_termines', methods: ['POST'])]
@@ -222,10 +243,10 @@ class TodoController extends AbstractController
     #[Route('/statistiques', name:'statistiques', methods: ['GET'])]
     public function statistiques(TodoRepository $todoRepository)
     {
-        $nbAFaire = $todoRepository->count(['statut' => Statut::A_FAIRE]);
-        $nbEnCours = $todoRepository->count(['statut' => Statut::EN_COURS]);
-        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE]);
-        $nbTotal = $todoRepository->count([]);
+        $nbAFaire = $todoRepository->count(['statut' => Statut::A_FAIRE, 'dateSuppression' => null]);
+        $nbEnCours = $todoRepository->count(['statut' => Statut::EN_COURS, 'dateSuppression' => null]);
+        $nbTermine = $todoRepository->count(['statut' => Statut::TERMINE, 'dateSuppression' => null]);
+        $nbTotal = $todoRepository->count(['dateSuppression' => null]);
 
         if ($nbTotal == 0) {
             $pourcentageTermine = 0;

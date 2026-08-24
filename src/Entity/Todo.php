@@ -37,6 +37,9 @@ class Todo
     #[ORM\Column]
     private ?int $ordre = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $dateSuppression = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +125,18 @@ class Todo
     public function setOrdre(int $ordre): static
     {
         $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    public function getDateSuppression(): ?\DateTime
+    {
+        return $this->dateSuppression;
+    }
+
+    public function setDateSuppression(?\DateTime $dateSuppression): static
+    {
+        $this->dateSuppression = $dateSuppression;
 
         return $this;
     }
