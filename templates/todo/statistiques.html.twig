@@ -62,19 +62,19 @@
 
                     <circle cx="60" cy="60" r="50" fill="none" stroke-width="12"
                             stroke-linecap="round"
-                            class="stroke-green-500 donut-segment"
+                            class="{% if lenTermine > 0 %}stroke-green-500 {% else %} stroke-0 {% endif %} donut-segment"
                             stroke-dasharray="{{ lenTermine|round(2) }} {{ (circonference - lenTermine)|round(2) }}"
                             stroke-dashoffset="0" />
 
                     <circle cx="60" cy="60" r="50" fill="none" stroke-width="12"
                             stroke-linecap="round"
-                            class="stroke-blue-500 donut-segment"
+                            class="{% if lenEnCours > 0 %}stroke-blue-500 {% else %} stroke-0 {% endif %} donut-segment"
                             stroke-dasharray="{{ lenEnCours|round(2) }} {{ (circonference - lenEnCours)|round(2) }}"
                             stroke-dashoffset="{{ -lenTermine|round(2) }}" />
 
                     <circle cx="60" cy="60" r="50" fill="none" stroke-width="12"
                             stroke-linecap="round"
-                            class="stroke-orange-500 donut-segment"
+                            class="{% if lenAFaire > 0 %}stroke-orange-500 {% else %} stroke-0 {% endif %} donut-segment"
                             stroke-dasharray="{{ lenAFaire|round(2) }} {{ (circonference - lenAFaire)|round(2) }}"
                             stroke-dashoffset="{{ -(lenTermine + lenEnCours)|round(2) }}" />
                 </svg>
