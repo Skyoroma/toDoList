@@ -50,7 +50,11 @@
     </div>
 
     {# Modale de création — le champ titre est pré-rempli en JS depuis la barre ci-dessus #}
-    <dialog id="modale-nouveau" class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800 overflow-y-auto max-h-[85vh]">
+    <dialog id="modale-nouveau"
+        class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800"
+        data-controller="modal"
+        data-action="click->modal#closeOnBackdrop">
+
         <div class="flex justify-end">
             <button type="button" onclick="document.getElementById('modale-nouveau').close()"
                     class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 active:scale-95 transition-all">✕</button>
@@ -243,7 +247,10 @@
                sur chaque élément qu'elles contiennent. #}
 
             {# Modale : changement de statut #}
-            <dialog id="modale-statut-{{ todo.id }}" class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800">
+            <dialog id="modale-statut-{{ todo.id }}"
+                class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800"
+                data-controller="modal"
+                data-action="click->modal#closeOnBackdrop">
                 <div class="flex justify-end">
                     <button type="button" onclick="document.getElementById('modale-statut-{{ todo.id }}').close()"
                             class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">✕</button>
@@ -290,7 +297,10 @@
             </dialog>
 
             {# Modale : modification (titre, description, date, durée, importance) #}
-            <dialog id="modale-modifier-{{ todo.id }}" class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800 overflow-y-auto max-h-[85vh]">
+            <dialog id="modale-modifier-{{ todo.id }}"
+                class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800 overflow-y-auto max-h-[85vh]"
+                data-controller="modal"
+                data-action="click->modal#closeOnBackdrop">
                 <div class="flex justify-end">
                     <button type="button" onclick="document.getElementById('modale-modifier-{{ todo.id }}').close()"
                             class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">✕</button>
@@ -344,7 +354,10 @@
             </dialog>
 
             {# Modale : détails (titre + description en lecture) #}
-            <dialog id="modale-details-{{ todo.id }}" class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800">
+            <dialog id="modale-details-{{ todo.id }}"
+                class="sheet fixed inset-x-0 bottom-0 top-auto m-0 w-full max-w-full rounded-t-2xl p-6 bg-white dark:bg-slate-800"
+                data-controller="modal"
+                data-action="click->modal#closeOnBackdrop">
                 <div class="flex justify-end">
                     <button type="button" onclick="document.getElementById('modale-details-{{ todo.id }}').close()"
                             class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">✕</button>
