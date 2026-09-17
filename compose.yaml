@@ -1,15 +1,19 @@
 services:
   database:
-    image: mysql:8
+    image: mysql:8.4
+    container_name: todolist-database
     environment:
       MYSQL_DATABASE: app
-      MYSQL_ROOT_PASSWORD: "!ChangeMe!"
-      MYSQL_PASSWORD: "!ChangeMe!"
       MYSQL_USER: app
-    ports:
-      - "3306:3306"
+      MYSQL_PASSWORD: app
+      MYSQL_ROOT_PASSWORD: app
     volumes:
       - database_data:/var/lib/mysql:rw
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uapp", "-papp"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
 volumes:
   database_data:
