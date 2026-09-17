@@ -11,11 +11,7 @@ Application **Symfony 8.1** + **Tailwind CSS 4**, base de données **MySQL 8.4**
 | PHP | ≥ 8.4 | `php -v` |
 | Composer | 2.x | `composer -V` |
 | Symfony CLI | dernière | `symfony version` |
-<<<<<<< HEAD
 | Docker Desktop | démarré | `docker info` |
-=======
-| Docker | démarré | `docker info` |
->>>>>>> 6751542301876ead849d2df5a5e03b6436cfc8c6
 
 Extensions PHP nécessaires : `ctype`, `iconv`, `pdo_mysql`, `intl`.
 
